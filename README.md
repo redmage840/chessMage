@@ -1,3 +1,7 @@
+some test stuff
+
+
+
 # chessMage
 python/tkinter, chess bot, mechanical turk
 
