@@ -2,42 +2,30 @@ from random import shuffle
 # ROOT ClASS, CHILD IS pieceMoves.py
 
 class Board(object):
-    def __init__(self,squares={},board=[],files=['a','b','c','d','e','f','g','h'],\
-    ranks=['1','2','3','4','5','6','7','8'],kingWatcher = [],moveHistory = [],rookWatcher = [],\
+    def __init__(self,squares={},board=[],kingWatcher = [],moveHistory = [],rookWatcher = [],\
     moveFuture = [],currentPlayer = 'w',computerPlayer = ''):
         self.squares = squares
-        self.ranks = ranks
-        self.files = files
         self.board = board
         self.computerPlayer = computerPlayer
-        
-        # moveHistory is a list of lists that is started with newGame() and updated at the end of movePiece()
-        #  moveHistory will look like this [[MOVENUMBER,[fromSquare,toSquare],pieceThatMoved,boardStateDictionary],...etc
+        # moveHistory is a list of lists that is intialized with Board.newGame() and updated by movePiece()
+        #  moveHistory elements look like this [[MOVENUMBER,[fromSquare,toSquare],pieceThatMoved,boardStateDictionary],...etc]
         self.moveHistory = moveHistory
-        ########
+        # moveFuture holds moves that were undone
         self.moveFuture = moveFuture
         self.currentPlayer = currentPlayer
-        
-        # these look for king or rook movement to allow for castling
+        # these watch for king or rook movement to allow/prevent for castling
         self.kingWatcher = kingWatcher
         self.rookWatcher = rookWatcher
-        
-        
         # build the board from the lists of ranks and files.
-        # The board is just a list of strings representing the squares in an order,
-        #     the order could be different depending on how someone thinks about it,
-        #       so we have to remember what order we put the squares in
-        for x in ranks:
-            for y in files:
-                board.append(y+x)
-        # these 2 forLoops populate the dictionary with an 'empty' value for each square
-        # the value isn't actually empty, it is 2 whitespaces. This allows to do things like compare the first 
-        #   or second element of an empty square with an occupied square.
-        #  the 2 spaces in empty squares also allow for a quick board representation to 
-        #     be printed to the screen
-        for filey in files:
-            for ranky in ranks:
-                squares[filey+ranky] = '  '
+        for rank in ['1','2','3','4','5','6','7','8']:
+            for file in ['a','b','c','d','e','f','g','h']:
+                board.append(file+rank)
+        # These forLoops populate the dictionary with 2 whitespaces value for each rank/file key. 
+        # The 2 spaces in empty squares allow for board representation to 
+        #     be printed to the terminal
+        for file in ['a','b','c','d','e','f','g','h']:
+            for rank in ['1','2','3','4','5','6','7','8']:
+                squares[file+rank] = '  '
     
     # go back to before your last move decision
     def undoMove(self):
@@ -56,15 +44,15 @@ class Board(object):
         
     # Start a new game
     def newGame(self):
-        for filey in self.files:
-            for ranky in self.ranks:
-                self.squares[filey+ranky] = '  '
+        for file in ['a','b','c','d','e','f','g','h']:
+            for rank in ['1','2','3','4','5','6','7','8']:
+                self.squares[file+rank] = '  '
         self.kingWatcher = []
         self.rookWatcher = []
         self.moveHistory = []
         self.moveFuture = []
         self.currentPlayer = 'w'
-        for x in self.files:
+        for x in ['a','b','c','d','e','f','g','h']:
             self.squares[x+'2'] = 'wp'
         self.squares['a1'] = 'wr'
         self.squares['h1'] = 'wr'
@@ -75,7 +63,7 @@ class Board(object):
         self.squares['d1'] = 'wq'
         self.squares['e1'] = 'wk'
         
-        for x in self.files:
+        for x in ['a','b','c','d','e','f','g','h']:
             self.squares[x+'7'] = 'bp'
         self.squares['a8'] = 'br'
         self.squares['h8'] = 'br'
