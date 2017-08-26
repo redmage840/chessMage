@@ -1,21 +1,23 @@
-from random import shuffle
 import board
-import Tkinter as tk
-import ttk
-# PARENT IS board.py, CHILD IS decider.py
+# PARENT IS board.py, CHILD IS moveLogic.py
+# Calls findAllMoves, which calls subroutines to return dictionary,
+#   Where key is a potential square(string) to be moved FROM,
+#   Where value is potential squares(list) to be moved TO
 # Example:
-#     x = myInstance.findAllMoves('w')
-#    x == {'a2':['a3','a4'],'b2':['b3','b4'], etc...}
+#     allMovesGivenBoard = someBoardInstance.findAllMoves('w')
+#       gives
+#     {'a2':['a3','a4'],'b2':['b3','b4'], etc...}
 
-# these globals are used to in promotion
+# these globals are used in promotion, computer defaults to queen
 selectedWhitePiece = 'wq'
 selectedBlackPiece = 'bq'
 
+# Extend Board class with methods for finding squares
 class Board(board.Board):
-    
+    # find all squares up, down, left, and right from a given square
+    # takes a string ('a2'), returns list of strings (['a3','a4'])
     def findLateralMoves(self,square):
         moves = []
-        
         up = self.board.index(square)+8
         while up < 64:
             if self.squares[self.board[up]] != '  ':
@@ -26,7 +28,6 @@ class Board(board.Board):
             else:
                 moves.append(self.board[up])
                 up += 8
-                
         down = self.board.index(square)-8
         while down > 0:
             if self.squares[self.board[down]] != '  ':
@@ -37,7 +38,6 @@ class Board(board.Board):
             else:
                 moves.append(self.board[down])
                 down -= 8
-        
         left = self.board.index(square)-1
         while left % 8 != 7:
             if self.board[left][0] == 'a':
@@ -54,7 +54,6 @@ class Board(board.Board):
             else:
                 moves.append(self.board[left])
                 left -= 1
-                
         right = self.board.index(square) + 1
         while right % 8 != 0:
             if self.board[right][0] == 'h':
@@ -72,7 +71,6 @@ class Board(board.Board):
             else:
                 moves.append(self.board[right])
                 right += 1
-                
         return moves
         
     def findDiagMoves(self,square):

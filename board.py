@@ -1,4 +1,3 @@
-from random import shuffle
 # ROOT ClASS, CHILD IS pieceMoves.py
 
 class Board(object):
