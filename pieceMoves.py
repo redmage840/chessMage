@@ -1,3 +1,4 @@
+import Tkinter as tk
 import board
 # PARENT IS board.py, CHILD IS moveLogic.py
 # Calls findAllMoves, which calls subroutines to return dictionary,
@@ -12,7 +13,7 @@ import board
 selectedWhitePiece = 'wq'
 selectedBlackPiece = 'bq'
 
-# Extend Board class with methods for finding squares
+# Extend Board class with methods for finding squares to move to
 class Board(board.Board):
     # find all squares up, down, left, and right from a given square
     # takes a string ('a2'), returns list of strings (['a3','a4'])
@@ -72,16 +73,15 @@ class Board(board.Board):
                 moves.append(self.board[right])
                 right += 1
         return moves
-        
+    # Finds all diagonals from a given square
+    # Takes a string ('a2'), returns a list (['b3','c4',etc])
     def findDiagMoves(self,square):
         moves = []
-        
         topright = self.board.index(square)+9
         while topright < 64 and square[0] != 'h':
             if self.board[topright][0] == 'h':
                 if self.squares[self.board[topright]][0] == self.squares[square][0]:
                     break
-                
                 moves.append(self.board[topright])
                 break
             if self.squares[self.board[topright]] != '  ':
@@ -92,7 +92,6 @@ class Board(board.Board):
             else:
                 moves.append(self.board[topright])
                 topright += 9
-                
         botright = self.board.index(square)-7
         while botright >= 0 and square[0] != 'h':
             if self.board[botright][0] == 'h':
@@ -108,7 +107,6 @@ class Board(board.Board):
             else:
                 moves.append(self.board[botright])
                 botright -= 7
-                
         topleft = self.board.index(square)+7
         while topleft < 64 and square[0] != 'a':
             if self.board[topleft][0] == 'a':
@@ -124,7 +122,6 @@ class Board(board.Board):
             else:
                 moves.append(self.board[topleft])
                 topleft += 7
-                
         botleft = self.board.index(square)-9
         while botleft >= 0 and square[0] != 'a':
             if self.board[botleft][0] == 'a':
@@ -142,9 +139,11 @@ class Board(board.Board):
                 botleft -= 9
         return moves
     
+    # Working on our Knight Moves, Trying to lose the awkward teenage blues
+    # Finds Knight moves (L shape) from a given square
+    # Takes a string ('c4') returns a list (['b2','d3',etc])
     def findKnightMoves(self,square):
         moves = []
-        
         botLeft = self.board.index(square)
         moveGrid = []
         moveLeft = 2
@@ -184,7 +183,6 @@ class Board(board.Board):
         #find 5x5 grid with square as center
         scope = [6,-6,10,-10,15,-15,17,-17]
         for x in scope:
-            #if self.squares[self.board[self.board.index(square)+x]][0] != self.squares[square][0]:
             if 0 <= (x + self.board.index(square)) <= 63:
                 moves.append(self.board[self.board.index(square)+x])
         newMoves = []
