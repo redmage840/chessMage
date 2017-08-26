@@ -1,6 +1,4 @@
-some test stuff
-
-
+currently refactoring, code is disorganized, comments out of date
 
 # chessMage
 python/tkinter, chess bot, mechanical turk
