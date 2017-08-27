@@ -1,4 +1,5 @@
 import Tkinter as tk
+import ttk
 import board
 # PARENT IS board.py, CHILD IS moveLogic.py
 # Calls findAllMoves, which calls subroutines to return dictionary,
@@ -138,7 +139,6 @@ class Board(board.Board):
                 moves.append(self.board[botleft])
                 botleft -= 9
         return moves
-    
     # Working on our Knight Moves, Trying to lose the awkward teenage blues
     # Finds Knight moves (L shape) from a given square
     # Takes a string ('c4') returns a list (['b2','d3',etc])
@@ -191,26 +191,29 @@ class Board(board.Board):
                 if self.squares[x][0] != self.squares[square][0]:
                     newMoves.append(x)
         return newMoves
-        
+    # Finds all queen moves from a given square, uses subroutines findLateralMoves and findDiagMoves
+    # Takes a string ('d4') returns a list (['d5','d6',etc])
     def findQueenMoves(self,square):
-    
         diags = self.findDiagMoves(square)
         lateral = self.findLateralMoves(square)
         moves = diags+lateral
         return moves
-        
+    # Finds all rook moves given a square, uses subroutine findLateralMoves
+    # Takes a string ('h1') returns a list (['h2','h3',etc])
     def findRookMoves(self,square):
         moves = self.findLateralMoves(square)
         return moves
-        
+    # Finds all bishop moves given a square, uses subroutine findDiagMoves
+    # Takes a string ('g7') returns a list (['f6','e5',etc])
     def findBishopMoves(self,square):
         moves = self.findDiagMoves(square)
         return moves
-        
-    # en passant moves added, maybe make more apparent that they are captures for board evaluation
+    # Finds all pawn moves given a square
+    # Takes a string ('a2') returns a list (['a3','a4',etc])
     def findPawnMoves(self,square):
         moves = []
-        #edge pawns en passant
+        # If given square contains a white pawn on 'a' or 'h' file,
+        # And last moved piece was a black pawn moving past it, add en passant square
         if square == 'a5' and self.squares[square] == 'wp':
             lastMovedPiece = self.moveHistory[-1][2]
             lastFromTo = self.moveHistory[-1][1]
@@ -225,7 +228,7 @@ class Board(board.Board):
                 if self.board.index(lastFromTo[0])-self.board.index(lastFromTo[1]) == 16:
                     if self.board.index(lastFromTo[1]) == self.board.index(square)-1:
                         moves.append('g6')
-        # other en passant 
+        # Add en passant squares for white pawns NOT on edge files
         elif self.squares[square] == 'wp' and square[1] == '5': #if not an edge pawn and on the 5th rank
             lastMovedPiece = self.moveHistory[-1][2]
             lastFromTo = self.moveHistory[-1][1]
@@ -235,8 +238,7 @@ class Board(board.Board):
                         moves.append(self.board[self.board.index(square)+9])
                     if self.board.index(lastFromTo[1]) == self.board.index(square)-1:
                         moves.append(self.board[self.board.index(square)+7])
-        # end en passant
-        #white pawns can move two squares forward if on starting square
+        # Add two square moves for white pawns from starting position
         if self.squares[square] == 'wp' and square[1] == '2':
             if self.squares[self.board[self.board.index(square)+8]] == '  ':
                 moves.append(self.board[self.board.index(square)+8])
@@ -251,7 +253,7 @@ class Board(board.Board):
                     moves.append(self.board[self.board.index(square)+7])
                 if self.squares[self.board[self.board.index(square)+9]][0] == 'b':
                     moves.append(self.board[self.board.index(square)+9])
-        #other white pawn moves
+        # Other white pawn moves
         elif self.squares[square] == 'wp':
             if self.board.index(square)+8 < 64 and self.squares[self.board[self.board.index(square)+8]] == '  ':
                 moves.append(self.board[self.board.index(square)+8])
@@ -259,7 +261,6 @@ class Board(board.Board):
                 moves.append(self.board[self.board.index(square)+7])
             elif self.board.index(square)+8 < 64 and square[0] == 'a' and self.squares[self.board[self.board.index(square)+9]][0] == 'b':
                 moves.append(self.board[self.board.index(square)+9])
-                
             else:
                 if self.board.index(square)+8 < 64:# problem is here
                     if self.squares[self.board[self.board.index(square)+7]][0] == 'b' and square[0] != 'a':
@@ -267,9 +268,8 @@ class Board(board.Board):
                     if square[0] != 'h':
                         if self.squares[self.board[self.board.index(square)+9]][0] == 'b':
                             moves.append(self.board[self.board.index(square)+9])
-                        
-        #black's pawns ##################
-        # begin black pawn en passant, edge pawns first
+        # Black's pawns
+        # Add en passant moves for black pawns on edge
         if square == 'a4' and self.squares[square] == 'bp':
             lastMovedPiece = self.moveHistory[-1][2]
             lastFromTo = self.moveHistory[-1][1]
@@ -284,7 +284,8 @@ class Board(board.Board):
                 if self.board.index(lastFromTo[1])-self.board.index(lastFromTo[0]) == 16:
                     if self.board.index(lastFromTo[1]) == self.board.index(square)-1:
                         moves.append('g3')
-        elif self.squares[square] == 'bp' and square[1] == '4': #if not an edge pawn
+        # Add en passant moves for black pawns NOT on edge
+        elif self.squares[square] == 'bp' and square[1] == '4':
             lastMovedPiece = self.moveHistory[-1][2]
             lastFromTo = self.moveHistory[-1][1]
             if lastMovedPiece == 'wp':
@@ -293,9 +294,7 @@ class Board(board.Board):
                         moves.append(self.board[self.board.index(square)-7])
                     if self.board.index(lastFromTo[1]) == self.board.index(square)-1:
                         moves.append(self.board[self.board.index(square)-9])
-            # end black pawn en passant
-                
-        #black pawns can move 2 squares forward from starting square
+        # Add two square moves for black pawns on starting square
         if self.squares[square][0] == 'b' and square[1] == '7':
             if self.squares[self.board[self.board.index(square)-8]] == '  ':
                 moves.append(self.board[self.board.index(square)-8])
@@ -312,7 +311,7 @@ class Board(board.Board):
                     moves.append(self.board[self.board.index(square)-7])
                 if self.squares[self.board[self.board.index(square)-9]][0] == 'w':
                     moves.append(self.board[self.board.index(square)-9])
-        #other black pawn moves
+        # Other black pawn moves
         elif self.squares[square][0] == 'b':
             if self.board.index(square)-8 >= 0 and self.squares[self.board[self.board.index(square)-8]] == '  ':
                 moves.append(self.board[self.board.index(square)-8])
@@ -328,14 +327,12 @@ class Board(board.Board):
                         moves.append(self.board[self.board.index(square)-7])
                     if self.squares[self.board[self.board.index(square)-9]][0] == 'w' and square[0] != 'a':
                         moves.append(self.board[self.board.index(square)-9])
-                        
         return moves
-    #############################
-    # these are used to find the king's legal moves
+    # Subroutine for finding king moves
+    # Finds all squares within one space of a square without going off the board
+    # Takes a string ('e1') returns a list (['e2','d2',etc])
     def kingGrid(self,square):
         moveGrid = []
-        
-        #find normal king moves
         botLeft = self.board.index(square)
         up,down,left,right = 1,1,1,1
         if square[0] == 'a':
@@ -360,21 +357,21 @@ class Board(board.Board):
                 moveGrid.append(self.board[botLeft])
                 botLeft += 1
             botLeft -= (left+right+1)
-        
         return moveGrid
-        
-    # check for legal castle moves and add to king's moves
+    # Subroutine for finding king moves
+    # Adds legal castling moves
+    # Takes a string ('e1') returns list (['c1'])
     def addCastleMoves(self,square):
         moveGrid = []
         if self.currentPlayer == 'w':
             enemyThreatenedSquares = self.findAllThreatenedSquares('b')
         elif self.currentPlayer == 'b':
             enemyThreatenedSquares = self.findAllThreatenedSquares('w')
-        #add castle white queenside to potential moves, castle movement should be resolved in movePiece
+        # Add white queenside castle
         if self.squares[square] == 'wk' and self.squares['b1'] == '  ' \
         and self.squares['c1'] == '  ' and self.squares['d1'] == '  ':
             castle = 0
-                #has rook moved? move up
+                # Has white rook moved?
             if 'a1' in self.rookWatcher:
                 castle += 1
             for piece,moves in enemyThreatenedSquares.items():
@@ -385,10 +382,10 @@ class Board(board.Board):
                 castle += 1
             if castle == 0:
                 moveGrid.append('c1')
-            #add castle white kingside to potential moves, castle movement should be resolved in movePiece
+            # Add white kingside castle
         if self.squares[square] == 'wk' and self.squares['f1'] == '  ' and self.squares['g1'] == '  ':
             castle = 0
-                #has rook moved?
+                # Has white rook moved?
             if 'h1' in self.rookWatcher:
                 castle += 1
             for piece,moves in enemyThreatenedSquares.items():
@@ -399,10 +396,10 @@ class Board(board.Board):
                 castle += 1
             if castle == 0:
                 moveGrid.append('g1')
-            #add castle black queenside to potential moves, castle movement resolved in movePiece
+            # Add black queenside castle
         if self.squares[square] == 'bk' and self.squares['b8'] == '  ' and self.squares['c8'] == '  ' and self.squares['d8'] == '  ':
             castle = 0
-                #has rook moved?
+                # Has black rook moved?
             if 'a8' in self.rookWatcher:
                 castle += 1
             for piece,moves in enemyThreatenedSquares.items():
@@ -413,10 +410,10 @@ class Board(board.Board):
                 castle += 1
             if castle == 0:
                 moveGrid.append('c8')
-            #add castle black kingside to potential moves, castle movement resolved in movePiece
+            # Add black kingside castle
         if self.squares[square] == 'bk' and self.squares['f8'] == '  ' and self.squares['g8'] == '  ':
             castle = 0
-                #has rook moved?
+                # Has black rook moved?
             if 'h8' in self.rookWatcher:
                 castle += 1
             for piece,moves in enemyThreatenedSquares.items():
@@ -444,19 +441,17 @@ class Board(board.Board):
             enemyMoveDict = self.findAllThreatenedSquares('b')
         if self.squares[square] == 'bk':
             enemyMoveDict = self.findAllThreatenedSquares('w')
+        # Remove squares occupied by friendly pieces
         for move in maybeMoves:
-        #  remove squares occupied by friendly pieces
             if self.squares[square][0] == self.squares[move][0]:
                 movesList.remove(move)
-            # remove moves that put you in check
+        # Remove moves that put you in check
         for enemyMoves in enemyMoveDict.values():
             if enemyMoves != []:
                 for enemyMove in enemyMoves:
                     if enemyMove in movesList:
                         movesList.remove(enemyMove)
         return movesList
-        
-    ######################################
     # all of these are used to return piece choice in promotion window to underlying game logic
     def promoteChoice(self,piece,popup):
         if piece[0] == 'w':
@@ -552,7 +547,6 @@ class Board(board.Board):
         
     # pass ('w'|'b') to see what squares that player currently threatens, returns dictionary
     def findAllThreatenedSquares(self, player):
-    # returns dict of each square to each threaten
         moveHolder = {}
         for square in self.board:
             if self.squares[square][0] == player:

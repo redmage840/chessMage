@@ -1,7 +1,7 @@
 from random import choice
 import pieceMoves
 # Moves are evaluated and decided upon here
-# class Board extends Board from pieceMoves.py
+# Extends Board class
 class Board(pieceMoves.Board): 
 
 # figure out way to print move chains
@@ -110,7 +110,7 @@ class Board(pieceMoves.Board):
                     # should return move
 
                     bestResponseAndScore = self.bestCapture('w')
-                    print 'potential move chain is ' + pieceSquare,moveSquare,bestResponseAndScore[0],bestResponseAndScore[1]
+                    #print 'potential move chain is ' + pieceSquare,moveSquare,bestResponseAndScore[0],bestResponseAndScore[1]
                     if bestResponseAndScore != []:
                         score -= bestResponseAndScore[-1]
                         
@@ -170,14 +170,13 @@ class Board(pieceMoves.Board):
         return max
 ###############################
     # stuff below here is not very crucial to increasing move complexity
-    # it does have some effect, moreso than other modules
-        
+    # it does have some effect
     # makes a random, legal move for a player, takes 'w'|'b' as arg, returns list with move, ie ['e2','e4']
     def randomMove(self,player):
         if player == 'b':
             thinkingMove = self.findDeepThreats(player)
             if thinkingMove != []:
-                print 'thinking move'
+                #print 'thinking move'
                 return thinkingMove
             else:
                 print 'black random move coming up'
