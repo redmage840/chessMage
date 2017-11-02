@@ -1,16 +1,13 @@
 # ROOT ClASS, CHILD IS pieceMoves.py
 
 class Board(object):
-    def __init__(self,squares={},board=[],kingWatcher = [],moveHistory = [],rookWatcher = [],\
-    moveFuture = [],currentPlayer = 'w',computerPlayer = ''):
+    def __init__(self,squares={},board=[],kingWatcher = [],moveHistory = [],rookWatcher = [],currentPlayer = 'w',computerPlayer = ''):
         self.squares = squares
         self.board = board
         self.computerPlayer = computerPlayer
         # moveHistory is a list of lists that is intialized with Board.newGame() and updated by movePiece()
         #  moveHistory elements look like this [[MOVENUMBER,[fromSquare,toSquare],pieceThatMoved,boardStateDictionary],...etc]
         self.moveHistory = moveHistory
-        # moveFuture holds moves that were undone
-        self.moveFuture = moveFuture
         self.currentPlayer = currentPlayer
         # these watch for king or rook movement to allow/prevent for castling
         self.kingWatcher = kingWatcher
@@ -49,7 +46,6 @@ class Board(object):
         self.kingWatcher = []
         self.rookWatcher = []
         self.moveHistory = []
-        self.moveFuture = []
         self.currentPlayer = 'w'
         for x in ['a','b','c','d','e','f','g','h']:
             self.squares[x+'2'] = 'wp'

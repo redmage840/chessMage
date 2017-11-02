@@ -2,6 +2,7 @@ import Tkinter as tk
 from ttk import Button, Label
 import sys,moveLogic
 # Need to fix: add 3 time board repetition, 50 move king stalemate, checkmate with en passant move available to remove check, make en passant and castling aware to findDeepThreats()
+# Need to add: more efficient find checkmates. Player is able to draw by moving king back and forth when threatened by the queen alone.
 # 
 # GameBoard.board.moveHistory has 4 elems; moveNumber,[rookWatcher,kingWatcher], [moveFromSquare,moveToSquare], pieceMoved,[rookWatcher,kingWatcher] self.squares.copy()
 class GameBoard(tk.Frame):

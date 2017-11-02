@@ -516,7 +516,9 @@ class Board(board.Board):
         B4.pack(side=tk.LEFT)
         popup.mainloop()
     #######################################
-    # these find squares that are threatened
+    # Given a square ('a2'), if it contains a pawn, returns squares that the pawn threatens
+    # Called by findAllThreatendSquares
+    # Takes a string, returns a list
     def findPawnDiagonals(self,square):
         pawnDiagonals = []
         if self.squares[square] == 'wp':
@@ -545,7 +547,9 @@ class Board(board.Board):
                     pawnDiagonals.append(self.board[self.board.index(square)-7])
         return pawnDiagonals
         
-    # pass ('w'|'b') to see what squares that player currently threatens, returns dictionary
+    # Finds all squares that a player threatens
+    # Calls findPawnDiagonals
+    # Takes a string ('w' or 'b'), returns dictionary where key is square moved from
     def findAllThreatenedSquares(self, player):
         moveHolder = {}
         for square in self.board:

@@ -1,17 +1,11 @@
 from random import choice
 import pieceMoves
 # Moves are evaluated and decided upon here
+
 # Extends Board class
 class Board(pieceMoves.Board): 
 
-# figure out way to print move chains
-
-# need to make a combined version of isInCheck and hasCheckMate...
-
-# instead of using eval points, maybe just get values of captured pieces 
-
-# need to enforce paradox of pawns
-
+# Need to improve finishing the game, finding checkmates... instead of moving back and forth threatening the king
 
 ##################################
 # stuff below here is very important to increasing move complexity/time/processing
@@ -171,6 +165,7 @@ class Board(pieceMoves.Board):
 ###############################
     # stuff below here is not very crucial to increasing move complexity
     # it does have some effect
+    
     # makes a random, legal move for a player, takes 'w'|'b' as arg, returns list with move, ie ['e2','e4']
     def randomMove(self,player):
         if player == 'b':
@@ -188,6 +183,7 @@ class Board(pieceMoves.Board):
                 piecesWithMoves.append(key)
         if piecesWithMoves == []:
             return []
+        # random.choice()
         fromSquare = choice(piecesWithMoves)
         toSquare = choice(moves[fromSquare])
         return [fromSquare,toSquare]
