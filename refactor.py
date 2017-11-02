@@ -22,3 +22,38 @@
 
 # Make FEN to my Board class repr
 #
+
+
+
+
+
+# Most abstract function should take FEN repr and return a move (would be for active player)
+
+
+
+# Current function dependencies, many primitives elided (findKnightMoves etc...)
+# findDeepThreats calls
+#   - hasCheckMate
+#   - bestCapture
+#   - bestCapture2
+#   - findAllMoves
+# bestCapture calls
+#   - bestCapture2
+#   -findAllMoves
+# bestCapture2 calls
+#   - findAllMoves
+# hasCheckMate calls
+#   -findAllMoves
+#   -isInCheck
+# findAllMoves calls
+#   - findKingMoves
+#   - isInCheck
+# findKingMoves calls
+#   - isInCheck
+#   - addCastleMoves
+# isInCheck calls
+#   -findAllThreatenedSquares
+# addCastleMoves calls
+#   - findAllThreatenedSquares
+# findAllThreatenedSquares calls
+#   - primitives like findKnightMoves
