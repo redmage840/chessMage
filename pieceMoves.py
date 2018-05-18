@@ -1,5 +1,5 @@
-import Tkinter as tk
-import ttk
+import tkinter as tk
+from tkinter import ttk
 import board
 # PARENT IS board.py, CHILD IS moveLogic.py
 # Calls findAllMoves, which calls subroutines to return dictionary,

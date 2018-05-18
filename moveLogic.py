@@ -174,7 +174,7 @@ class Board(pieceMoves.Board):
                 #print 'thinking move'
                 return thinkingMove
             else:
-                print 'black random move coming up'
+                print('black random move coming up')
         # make a random move
         moves = self.findAllMoves(player) 
         piecesWithMoves = []

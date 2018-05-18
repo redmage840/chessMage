@@ -28,8 +28,7 @@
 
 
 # Most abstract function should take FEN repr and return a move (would be for active player)
-
-
+#
 
 
 

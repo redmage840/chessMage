@@ -1,5 +1,28 @@
-import Tkinter as tk
-from ttk import Button, Label
+# Porting to Python3
+# Current error:
+'''
+debug in coordsToSquare
+debug in coordsToSquare
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/Users/crazyfox/anaconda3/lib/python3.6/tkinter/__init__.py", line 1699, in __call__
+    return self.func(*args)
+  File "ChessMage.py", line 81, in callBackLeftClick
+    self.storeMove(squareName)
+  File "ChessMage.py", line 86, in storeMove
+    self.oldColor = self.canvas.itemconfigure(square,'fill')[-1]
+  File "/Users/crazyfox/anaconda3/lib/python3.6/tkinter/__init__.py", line 2572, in itemconfigure
+    return self._configure(('itemconfigure', tagOrId), cnf, kw)
+  File "/Users/crazyfox/anaconda3/lib/python3.6/tkinter/__init__.py", line 1469, in _configure
+    return self._getconfigure1(_flatten((self._w, cmd, '-'+cnf)))
+  File "/Users/crazyfox/anaconda3/lib/python3.6/tkinter/__init__.py", line 1458, in _getconfigure1
+    return (x[0][1:],) + x[1:]
+IndexError: tuple index out of range
+'''
+
+import tkinter as tk
+from tkinter import ttk
+# from ttk import Button, Label
 import sys,moveLogic
 # Need to fix: add 3 time board repetition, 50 move king stalemate, checkmate with en passant move available to remove check, make en passant and castling aware to findDeepThreats()
 # Need to add: more efficient find checkmates. Player is able to draw by moving king back and forth when threatened by the queen alone.
@@ -26,13 +49,13 @@ class GameBoard(tk.Frame):
         canvas_width = columns * size 
         canvas_height = rows * size
         tk.Frame.__init__(self, parent)
-        label1 = Label(self)
+        label1 = ttk.Label(self)
         label1.pack()
-        button1 = Button(label1,text="QUIT!",command=sys.exit)
+        button1 = ttk.Button(label1,text="QUIT!",command=sys.exit)
         button1.pack(side=tk.LEFT)
-        button2 = Button(label1,text="New Game",command=self.newGame)
+        button2 = ttk.Button(label1,text="New Game",command=self.newGame)
         button2.pack(side=tk.LEFT)
-        button3 = Button(label1,text="Undo Move",command=self.undoMove)
+        button3 = ttk.Button(label1,text="Undo Move",command=self.undoMove)
         button3.pack(side=tk.LEFT)
         self.canvas = tk.Canvas(self, borderwidth=0, highlightthickness=0,
                                 width=canvas_width, height=canvas_height)
@@ -55,9 +78,9 @@ class GameBoard(tk.Frame):
         popup.wm_attributes("-topmost",1)
         popup.focus_force()
         popup.wm_title("End of Game!")
-        label = Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
+        label = ttk.Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
         label.pack(side="top", fill="x", pady=10)
-        B1 = Button(popup, text="??????  Start New Game  ??????", command = lambda popup=popup: self.endOfGameButton(popup))
+        B1 = ttk.Button(popup, text="??????  Start New Game  ??????", command = lambda popup=popup: self.endOfGameButton(popup))
         B1.pack()
         popup.mainloop()
         
@@ -66,9 +89,9 @@ class GameBoard(tk.Frame):
         popup.wm_attributes("-topmost",1)
         popup.focus_force()
         popup.wm_title("End of Game!")
-        label = Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
+        label = ttk.Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
         label.pack(side="top", fill="x", pady=10)
-        B1 = Button(popup, text="??????  Start New Game  ??????", command = lambda popup=popup: self.endOfGameButton(popup))
+        B1 = ttk.Button(popup, text="??????  Start New Game  ??????", command = lambda popup=popup: self.endOfGameButton(popup))
         B1.pack()
         popup.mainloop()
         
@@ -290,7 +313,7 @@ class GameBoard(tk.Frame):
         elif row == 7:
             file = 'h'
         else:
-            print 'debug in coordsToSquare'
+            print('debug in coordsToSquare')
         if column == 0:
             rank = '8'
         elif column == 1:
@@ -308,7 +331,7 @@ class GameBoard(tk.Frame):
         elif column == 7:
             rank = '1'
         else:
-            print 'debug in coordsToSquare'
+            print('debug in coordsToSquare')
         return file+rank
         
         # examples: 'a8' returns (0,0) , 'a7' returns (0,1)
