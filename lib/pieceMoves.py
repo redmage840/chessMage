@@ -1,6 +1,6 @@
-import tkinter as tk
-from tkinter import ttk
-import board
+import Tkinter as tk
+from ttk import Button, Label
+import lib.board
 # PARENT IS board.py, CHILD IS moveLogic.py
 # Calls findAllMoves, which calls subroutines to return dictionary,
 #   Where key is a potential square(string) to be moved FROM,
@@ -15,7 +15,7 @@ selectedWhitePiece = 'wq'
 selectedBlackPiece = 'bq'
 
 # Extend Board class with methods for finding squares to move to
-class Board(board.Board):
+class Board(lib.board.Board):
     # find all squares up, down, left, and right from a given square
     # takes a string ('a2'), returns list of strings (['a3','a4'])
     def findLateralMoves(self,square):
@@ -479,19 +479,19 @@ class Board(board.Board):
         popup.wm_attributes("-topmost", 1)
         popup.focus_force()
         popup.wm_title("Promote!")
-        whiteRook = tk.PhotoImage(master=popup,file='wr.gif')
-        whiteKnight = tk.PhotoImage(master=popup,file='wn.gif')
-        whiteBishop = tk.PhotoImage(master=popup,file='wb.gif')
-        whiteQueen = tk.PhotoImage(master=popup,file='wq.gif')
-        label = ttk.Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
+        whiteRook = tk.PhotoImage(master=popup,file='res/wr.gif')
+        whiteKnight = tk.PhotoImage(master=popup,file='res/wn.gif')
+        whiteBishop = tk.PhotoImage(master=popup,file='res/wb.gif')
+        whiteQueen = tk.PhotoImage(master=popup,file='res/wq.gif')
+        label = Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
         label.pack(side="top", fill="x", pady=10)
-        B1 = ttk.Button(popup,image=whiteRook,command=lambda popup=popup:self.promoteChoice('wr',popup))
+        B1 = Button(popup,image=whiteRook,command=lambda popup=popup:self.promoteChoice('wr',popup))
         B1.pack(side=tk.LEFT)
-        B2 = ttk.Button(popup,image=whiteBishop,command=lambda popup=popup:self.promoteChoice('wb',popup))
+        B2 = Button(popup,image=whiteBishop,command=lambda popup=popup:self.promoteChoice('wb',popup))
         B2.pack(side=tk.LEFT)
-        B3 = ttk.Button(popup,image=whiteKnight,command=lambda popup=popup:self.promoteChoice('wn',popup))
+        B3 = Button(popup,image=whiteKnight,command=lambda popup=popup:self.promoteChoice('wn',popup))
         B3.pack(side=tk.LEFT)
-        B4 = ttk.Button(popup,image=whiteQueen,command=lambda popup=popup:self.promoteChoice('wq',popup))
+        B4 = Button(popup,image=whiteQueen,command=lambda popup=popup:self.promoteChoice('wq',popup))
         B4.pack(side=tk.LEFT)
         popup.mainloop()
         
@@ -500,19 +500,19 @@ class Board(board.Board):
         popup.wm_attributes("-topmost", 1)
         popup.focus_force()
         popup.wm_title("Promote!")
-        blackRook = tk.PhotoImage(master=popup,file='br.gif')
-        blackKnight = tk.PhotoImage(master=popup,file='bn.gif')
-        blackBishop = tk.PhotoImage(master=popup,file='bb.gif')
-        blackQueen = tk.PhotoImage(master=popup,file='bq.gif')
-        label = ttk.Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
+        blackRook = tk.PhotoImage(master=popup,file='res/br.gif')
+        blackKnight = tk.PhotoImage(master=popup,file='res/bn.gif')
+        blackBishop = tk.PhotoImage(master=popup,file='res/bb.gif')
+        blackQueen = tk.PhotoImage(master=popup,file='res/bq.gif')
+        label = Label(popup, text=msg,font=("Helvetica", 16),anchor=tk.CENTER,relief='groove')
         label.pack(side="top", fill="x", pady=10)
-        B1 = ttk.Button(popup,image=blackRook,command=lambda popup=popup:self.promoteChoice('br',popup))
+        B1 = Button(popup,image=blackRook,command=lambda popup=popup:self.promoteChoice('br',popup))
         B1.pack(side=tk.LEFT)
-        B2 = ttk.Button(popup,image=blackBishop,command=lambda popup=popup:self.promoteChoice('bb',popup))
+        B2 = Button(popup,image=blackBishop,command=lambda popup=popup:self.promoteChoice('bb',popup))
         B2.pack(side=tk.LEFT)
-        B3 = ttk.Button(popup,image=blackKnight,command=lambda popup=popup:self.promoteChoice('bn',popup))
+        B3 = Button(popup,image=blackKnight,command=lambda popup=popup:self.promoteChoice('bn',popup))
         B3.pack(side=tk.LEFT)
-        B4 = ttk.Button(popup,image=blackQueen,command=lambda popup=popup:self.promoteChoice('bq',popup))
+        B4 = Button(popup,image=blackQueen,command=lambda popup=popup:self.promoteChoice('bq',popup))
         B4.pack(side=tk.LEFT)
         popup.mainloop()
     #######################################

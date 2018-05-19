@@ -1,9 +1,9 @@
 from random import choice
-import pieceMoves
+import lib.pieceMoves
 # Moves are evaluated and decided upon here
 
 # Extends Board class
-class Board(pieceMoves.Board): 
+class Board(lib.pieceMoves.Board): 
 
 # Need to improve finishing the game, finding checkmates... instead of moving back and forth threatening the king
 
@@ -174,7 +174,7 @@ class Board(pieceMoves.Board):
                 #print 'thinking move'
                 return thinkingMove
             else:
-                print('black random move coming up')
+                print 'black random move coming up'
         # make a random move
         moves = self.findAllMoves(player) 
         piecesWithMoves = []

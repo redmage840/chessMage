@@ -70,4 +70,3 @@ class Board(object):
         self.squares['e8'] = 'bk'
         #initialize moveHistory
         self.moveHistory = [[0,['  ','  '],'  ',[self.rookWatcher[:],self.kingWatcher[:]],self.squares.copy()]]
-    
