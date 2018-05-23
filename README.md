@@ -1,10 +1,10 @@
-currently refactoring, code is disorganized, comments out of date
+# ChessMage
+Python2/Tkinter, Chess Bot
 
-# chessMage
-python/tkinter, chess bot, mechanical turk
-
-run with 
+Run with: 
 python ChessMage.py
+-OR-
+python2 ChessMage.py
 
 Play the white pieces against black computer opponent.
 All original code, no chess engines used. 
